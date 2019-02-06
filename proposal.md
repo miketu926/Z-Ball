@@ -23,11 +23,11 @@ The project will be implemented with the following technologies:
 
 The following are the main scripts that will be implemented:
 
-`board.js`: this script will handle the logic for rendering the path and the water
+- `board.js`: this script will handle the logic for rendering the path and the water
 
-`ball.js `: this script will handle the logic for rendering the ball as it remains on the path
+- `ball.js `: this script will handle the logic for rendering the ball as it remains on the path
 
-`points.js`: this script will handle the logic for points - 100ms = 1 point
+- `points.js`: this script will handle the logic for points - 100ms = 1 point
 
 ### Implementation Timeline
 

@@ -21,7 +21,7 @@ The project will be implemented with the following technologies:
 
 - `Webpack` to bundle js files
 
-The following are the main scripts that will be implemented:
+The following main scripts will be implemented:
 
 - `board.js`: this script will handle the logic for rendering the path and the water
 

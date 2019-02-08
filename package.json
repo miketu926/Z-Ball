@@ -1,0 +1,26 @@
+{
+  "name": "Z-Ball",
+  "version": "1.0.0",
+  "description": "Z-Ball",
+  "main": "webpack.config.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "./node_modules/.bin/webpack --mode=production",
+    "webpack": "webpack --mode=development --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/miketu926/Z-Ball.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/miketu926/Z-Ball/issues"
+  },
+  "homepage": "https://github.com/miketu926/Z-Ball#readme",
+  "devDependencies": {
+    "webpack": "^4.29.2",
+    "webpack-cli": "^3.2.3"
+  }
+}

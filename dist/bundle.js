@@ -102,8 +102,14 @@ __webpack_require__.r(__webpack_exports__);
 
 class Game {
 
-  drawZigZag () {
-    
+  drawZigZag (zig) {
+    ctx.beginPath();
+    ctx.fillStyle = "green";
+    ctx.moveTo(zig.p1x, zig.p1y + zig.yMove);
+    ctx.lineTo(zig.p2x, zig.p2y + zig.yMove);
+    ctx.lineTo(zig.p3x, zig.p3y + zig.yMove);
+    ctx.lineTo(zig.p4x, zig.p4y + zig.yMove);
+    ctx.fill();
   }
   
   constructor(ctx) {

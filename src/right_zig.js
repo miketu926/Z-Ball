@@ -19,7 +19,7 @@ class RightZig {
     return Math.sqrt((laneWidth ** 2) / 2 );
   }
 
-  constructor(prevX2, prevY2, laneWidth, ctx) {
+  constructor(prevX2, prevY2, laneWidth, ctx, moveSpeed) {
     this.ctx = ctx;
     this.rA = this.getRandomA();
     this.yMove = 0;  // increment y by all 1 to go down
@@ -32,7 +32,8 @@ class RightZig {
     this.p4x = this.p3x + this.aLane(laneWidth);
     this.p4y = this.p3y + this.aLane(laneWidth);
     this.draw = this.draw.bind(this);
-    this.YforNextPiece = this.p4y - 1; //+ this.aLane(laneWidth);
+    this.YforNextPiece = this.p4y - moveSpeed; //+ this.aLane(laneWidth);
+    this.moveSpeed = moveSpeed;
   }
 
   draw() {
@@ -44,8 +45,8 @@ class RightZig {
     this.ctx.lineTo(this.p4x, this.p4y + this.yMove);
     this.ctx.fill();
 
-    this.yMove += 1;
-    this.YforNextPiece += 1;
+    this.yMove += this.moveSpeed;
+    this.YforNextPiece += this.moveSpeed;
 
 
     requestAnimationFrame(this.draw);

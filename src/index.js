@@ -13,12 +13,10 @@ document.addEventListener("DOMContentLoaded", () => {
   game.StartLane.draw();
 
   game.generateZigZag(game.prevX, game.prevY, game.laneWidth, game.ctx);
+  game.pieces.slice(-1)[0].draw();
 
   const runGame = function runGame() {
-    game.pieces.slice(-1)[0].draw();
-    // debugger
     if (game.turn === 'right' && game.pieces.slice(-1)[0].YforNextPiece > 0 ) {
-      // debugger
       game.turn = 'left';
       game.generateZigZag(game.pieces.slice(-1)[0].p4x, game.pieces.slice(-1)[0].p4y, game.laneWidth, game.ctx);
       game.pieces.slice(-1)[0].draw();
@@ -31,11 +29,13 @@ document.addEventListener("DOMContentLoaded", () => {
       // debugger
     }
     
+
+    requestAnimationFrame(runGame);
   }
 
   // runGame();
 
-  // requestAnimationFrame(runGame);
-  setInterval(runGame, 2000);
+  requestAnimationFrame(runGame);
+  // setInterval(runGame, 2000);
 
 });

@@ -32,7 +32,7 @@ class RightZig {
     this.p4x = this.p3x + this.aLane(laneWidth);
     this.p4y = this.p3y + this.aLane(laneWidth);
     this.draw = this.draw.bind(this);
-    this.YforNextPiece = this.p4y + this.aLane(laneWidth);
+    this.YforNextPiece = this.p2y + this.aLane(laneWidth);
   }
 
   draw() {

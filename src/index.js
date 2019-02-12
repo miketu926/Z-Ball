@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let game = new Game(ctx);
 
   window.game = game;
+  window.pieces = game.pieces;
 
   game.generateBackground();
   game.StartLane.draw();
@@ -15,18 +16,15 @@ document.addEventListener("DOMContentLoaded", () => {
   game.generateZigZag(game.prevX, game.prevY, game.laneWidth, game.ctx);
   game.pieces.slice(-1)[0].draw();
 
-  const runGame = function runGame() {
+  function runGame() {
     if (game.turn === 'right' && game.pieces.slice(-1)[0].YforNextPiece > 0 ) {
       game.turn = 'left';
-      game.generateZigZag(game.pieces.slice(-1)[0].p4x, game.pieces.slice(-1)[0].p4y, game.laneWidth, game.ctx);
+      game.generateZigZag(game.pieces.slice(-1)[0].p4x, game.pieces.slice(-1)[0].YforNextPiece, game.laneWidth, game.ctx);
       game.pieces.slice(-1)[0].draw();
-      // debugger
     } else if (game.turn === 'left' && game.pieces.slice(-1)[0].YforNextPiece > 0 ) {
-      // debugger
       game.turn = 'right';
-      game.generateZigZag(game.pieces.slice(-1)[0].p2x, game.pieces.slice(-1)[0].p2y, game.laneWidth, game.ctx);
+      game.generateZigZag(game.pieces.slice(-1)[0].p2x, game.pieces.slice(-1)[0].YforNextPiece, game.laneWidth, game.ctx);
       game.pieces.slice(-1)[0].draw();
-      // debugger
     }
     
 

@@ -22,7 +22,7 @@ class LeftZig {
   constructor(prevX4, prevY4, laneWidth, ctx) {
     this.ctx = ctx;
     this.rA = this.getRandomA();
-    this.yMove = 0; 
+    this.yMove = 0;
     this.p1x = prevX4 - this.aLane(laneWidth);
     this.p1y = prevY4 + this.aLane(laneWidth);
     this.p2x = this.p1x - this.rA;
@@ -32,7 +32,7 @@ class LeftZig {
     this.p4x = this.p3x + this.rA;
     this.p4y = this.p3y + this.rA;
     this.draw = this.draw.bind(this);
-    this.YforNextPiece = this.p4y + this.aLane(laneWidth);
+    this.YforNextPiece = this.p2y - 1; // + this.aLane(laneWidth);
   }
 
   draw() {

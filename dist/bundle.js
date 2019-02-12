@@ -162,6 +162,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let game = new _game__WEBPACK_IMPORTED_MODULE_0__["default"](ctx);
 
   window.game = game;
+  window.pieces = game.pieces;
 
   game.generateBackground();
   game.StartLane.draw();
@@ -169,18 +170,15 @@ document.addEventListener("DOMContentLoaded", () => {
   game.generateZigZag(game.prevX, game.prevY, game.laneWidth, game.ctx);
   game.pieces.slice(-1)[0].draw();
 
-  const runGame = function runGame() {
+  function runGame() {
     if (game.turn === 'right' && game.pieces.slice(-1)[0].YforNextPiece > 0 ) {
       game.turn = 'left';
-      game.generateZigZag(game.pieces.slice(-1)[0].p4x, game.pieces.slice(-1)[0].p4y, game.laneWidth, game.ctx);
+      game.generateZigZag(game.pieces.slice(-1)[0].p4x, game.pieces.slice(-1)[0].YforNextPiece, game.laneWidth, game.ctx);
       game.pieces.slice(-1)[0].draw();
-      // debugger
     } else if (game.turn === 'left' && game.pieces.slice(-1)[0].YforNextPiece > 0 ) {
-      // debugger
       game.turn = 'right';
-      game.generateZigZag(game.pieces.slice(-1)[0].p2x, game.pieces.slice(-1)[0].p2y, game.laneWidth, game.ctx);
+      game.generateZigZag(game.pieces.slice(-1)[0].p2x, game.pieces.slice(-1)[0].YforNextPiece, game.laneWidth, game.ctx);
       game.pieces.slice(-1)[0].draw();
-      // debugger
     }
     
 
@@ -229,7 +227,7 @@ class LeftZig {
   constructor(prevX4, prevY4, laneWidth, ctx) {
     this.ctx = ctx;
     this.rA = this.getRandomA();
-    this.yMove = 0; 
+    this.yMove = 0;
     this.p1x = prevX4 - this.aLane(laneWidth);
     this.p1y = prevY4 + this.aLane(laneWidth);
     this.p2x = this.p1x - this.rA;
@@ -239,7 +237,7 @@ class LeftZig {
     this.p4x = this.p3x + this.rA;
     this.p4y = this.p3y + this.rA;
     this.draw = this.draw.bind(this);
-    this.YforNextPiece = this.p4y + this.aLane(laneWidth);
+    this.YforNextPiece = this.p2y - 1; // + this.aLane(laneWidth);
   }
 
   draw() {
@@ -308,7 +306,7 @@ class RightZig {
     this.p4x = this.p3x + this.aLane(laneWidth);
     this.p4y = this.p3y + this.aLane(laneWidth);
     this.draw = this.draw.bind(this);
-    this.YforNextPiece = this.p2y + this.aLane(laneWidth);
+    this.YforNextPiece = this.p4y - 1; //+ this.aLane(laneWidth);
   }
 
   draw() {
@@ -347,7 +345,7 @@ __webpack_require__.r(__webpack_exports__);
 class StartLane {
   constructor(ctx, laneWidth) {
     this.ctx = ctx;
-    this.height = 200;
+    this.height = 800;
     this.laneWidth = laneWidth;
     this.x = (this.ctx.canvas.width - laneWidth) / 2;
     this.y = -200;

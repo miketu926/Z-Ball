@@ -1,7 +1,7 @@
 class StartLane {
   constructor(ctx, laneWidth) {
     this.ctx = ctx;
-    this.height = 200;
+    this.height = 800;
     this.laneWidth = laneWidth;
     this.x = (this.ctx.canvas.width - laneWidth) / 2;
     this.y = -200;

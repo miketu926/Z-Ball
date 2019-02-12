@@ -28,8 +28,6 @@ class Game {
       this.pieces.push(new LeftZig(prevX, prevY, laneWidth, ctx));
     }
   }
-
-
   
   over() {
     return false;

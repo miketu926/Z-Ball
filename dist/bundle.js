@@ -128,8 +128,6 @@ class Game {
       this.pieces.push(new _left_zig__WEBPACK_IMPORTED_MODULE_0__["default"](prevX, prevY, laneWidth, ctx));
     }
   }
-
-
   
   over() {
     return false;
@@ -152,6 +150,8 @@ class Game {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _game__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./game */ "./src/game.js");
+/* harmony import */ var _player__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./player */ "./src/player.js");
+
 
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -159,17 +159,31 @@ document.addEventListener("DOMContentLoaded", () => {
   ctx.canvas.width = 500;
   ctx.canvas.height = 700;
 
+  const canvas = document.getElementById("background-layer");
+
   let game = new _game__WEBPACK_IMPORTED_MODULE_0__["default"](ctx);
+  let player = new _player__WEBPACK_IMPORTED_MODULE_1__["default"](ctx, document);
 
   window.game = game;
   window.pieces = game.pieces;
+  window.player = player;
 
+  canvas.addEventListener("click", clickHandler);
+
+  function clickHandler() {
+    if (player.clicked === "right") {
+      player.clicked = "left";
+    } else {
+      player.clicked = "right";
+    }
+  }
   game.generateBackground();
   game.StartLane.draw();
 
   game.generateZigZag(game.prevX, game.prevY, game.laneWidth, game.ctx);
   game.pieces.slice(-1)[0].draw();
 
+  
   function runGame() {
     if (game.turn === 'right' && game.pieces.slice(-1)[0].YforNextPiece > 0 ) {
       game.turn = 'left';
@@ -180,12 +194,28 @@ document.addEventListener("DOMContentLoaded", () => {
       game.generateZigZag(game.pieces.slice(-1)[0].p2x, game.pieces.slice(-1)[0].YforNextPiece, game.laneWidth, game.ctx);
       game.pieces.slice(-1)[0].draw();
     }
-    
 
+    player.draw();
+
+    if (game.pieces.length > 30) {
+      game.pieces.shift();
+    }
+
+    if (player.clicked === "none") {
+    } else if (player.clicked === "right") {
+      player.moveRight();
+    } else {
+      player.moveLeft();
+    }
+    
     requestAnimationFrame(runGame);
   }
 
-  // runGame();
+  // function unclickHandler(e) {
+  //   if (e.key == 'click') {
+  //     player.clicked = false;
+  //   }
+  // }
 
   requestAnimationFrame(runGame);
   // setInterval(runGame, 2000);
@@ -260,6 +290,52 @@ class LeftZig {
 
 
 /* harmony default export */ __webpack_exports__["default"] = (LeftZig);
+
+/***/ }),
+
+/***/ "./src/player.js":
+/*!***********************!*\
+  !*** ./src/player.js ***!
+  \***********************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+class Player {
+  constructor(ctx, document) {
+    this.ctx = ctx;
+    this.x = this.ctx.canvas.width / 2;
+    this.y = this.ctx.canvas.height - 150;
+    this.draw = this.draw.bind(this);
+    this.radius = 10;
+    this.document = document;
+    this.clicked = "none";
+  }
+
+  draw() {
+    this.ctx.beginPath();
+    this.ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+    this.ctx.fillStyle = "#000000";
+    this.ctx.fill();
+    this.ctx.closePath();
+
+    // requestAnimationFrame(this.draw);
+  }
+
+  moveRight() {
+    this.x += 1;
+  }
+
+  moveLeft() {
+    this.x -= 1;
+  }
+
+
+}
+
+
+/* harmony default export */ __webpack_exports__["default"] = (Player);
 
 /***/ }),
 
@@ -345,10 +421,10 @@ __webpack_require__.r(__webpack_exports__);
 class StartLane {
   constructor(ctx, laneWidth) {
     this.ctx = ctx;
-    this.height = 800;
+    this.height = 700;
     this.laneWidth = laneWidth;
     this.x = (this.ctx.canvas.width - laneWidth) / 2;
-    this.y = -200;
+    this.y = -100;
     this.draw = this.draw.bind(this);
   }
 

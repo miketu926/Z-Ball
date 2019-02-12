@@ -105,7 +105,7 @@ __webpack_require__.r(__webpack_exports__);
 class Game {
   constructor(ctx) {
     this.ctx = ctx;
-    this.moveSpeed = 2.5;
+    this.moveSpeed = 4;
     this.turn = 'right'; // starts off with right zig, then alternates
     this.pieces = []; // new instances of LeftZig and RightZig gets accumulated
     this.score = 0; // score by action (spacebar or click)
@@ -117,7 +117,7 @@ class Game {
   }
 
   generateBackground() {
-    this.ctx.fillStyle = 'lightblue';
+    this.ctx.fillStyle = 'black';
     this.ctx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
     requestAnimationFrame(this.generateBackground);
   }
@@ -131,7 +131,7 @@ class Game {
   }
   
   over() {
-    return false;
+
   }
   
 }
@@ -160,7 +160,9 @@ document.addEventListener("DOMContentLoaded", () => {
   ctx.canvas.width = 500;
   ctx.canvas.height = 700;
 
-  const canvas = document.getElementById("background-layer");
+  const playerCtx = document.getElementById("player-layer").getContext('2d');
+  playerCtx.canvas.width = 500;
+  playerCtx.canvas.height = 700;
 
   let game = new _game__WEBPACK_IMPORTED_MODULE_0__["default"](ctx);
   let player = new _player__WEBPACK_IMPORTED_MODULE_1__["default"](ctx, game.moveSpeed);
@@ -168,9 +170,11 @@ document.addEventListener("DOMContentLoaded", () => {
   window.game = game;
   window.pieces = game.pieces;
   window.player = player;
+  window.ctx = ctx;
+  window.playerCtx = playerCtx;
 
-  canvas.addEventListener("click", clickHandler);
-  canvas.addEventListener("keyup", clickHandler);
+  ctx.canvas.addEventListener("click", clickHandler);
+  // ctx.canvas.addEventListener("keyup", clickHandler); // for spacebar
 
   function clickHandler(e) {
     // if (e.keyCode == 32 || e.type === 'click') {  to implement for spacebar
@@ -186,7 +190,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   game.generateZigZag(game.prevX, game.prevY, game.laneWidth, game.ctx, game.moveSpeed);
   game.pieces.slice(-1)[0].draw();
-  
   
   function runGame() {
     player.draw();
@@ -211,7 +214,32 @@ document.addEventListener("DOMContentLoaded", () => {
       player.moveLeft();
     }
 
-    // falling off detection
+
+    if (game.ctx.getImageData(player.x + player.a - 1, player.y - player.a - 1, 1, 1).data[0] == 0 && 
+        game.ctx.getImageData(player.x + player.a - 1, player.y - player.a - 1, 1, 1).data[1] == 0 && 
+        game.ctx.getImageData(player.x + player.a - 1, player.y - player.a - 1, 1, 1).data[2] == 0 ) {
+          // alert("game over");
+          window.location.reload();
+        // cancelAnimationFrame(run);
+    } else if (game.ctx.getImageData(player.x + player.a - 1, player.y + player.a - 1, 1, 1).data[0] == 0 &&
+                game.ctx.getImageData(player.x + player.a - 1, player.y + player.a - 1, 1, 1).data[1] == 0 &&
+                game.ctx.getImageData(player.x + player.a - 1, player.y + player.a - 1, 1, 1).data[2] == 0) {
+          // alert("game over");
+          window.location.reload();
+      // cancelAnimationFrame(run);
+    } else if (game.ctx.getImageData(player.x - player.a - 1, player.y + player.a - 1, 1, 1).data[0] == 0 &&
+                game.ctx.getImageData(player.x - player.a - 1, player.y + player.a - 1, 1, 1).data[1] == 0 &&
+                game.ctx.getImageData(player.x - player.a - 1, player.y + player.a - 1, 1, 1).data[2] == 0) {
+          // alert("game over");
+          window.location.reload();
+      // cancelAnimationFrame(run);
+    } else if (game.ctx.getImageData(player.x - player.a - 1, player.y - player.a - 1, 1, 1).data[0] == 0 &&
+                game.ctx.getImageData(player.x - player.a - 1, player.y - player.a - 1, 1, 1).data[1] == 0 &&
+                game.ctx.getImageData(player.x - player.a - 1, player.y - player.a - 1, 1, 1).data[2] == 0) {
+          // alert("game over");
+          window.location.reload();
+      // cancelAnimationFrame(run);
+    }
     
     
     requestAnimationFrame(runGame);
@@ -311,6 +339,7 @@ class Player {
     this.radius = 7;
     this.clicked = "none";
     this.moveSpeed = moveSpeed;
+    this.a = Math.sqrt((this.radius ** 2) / 2);
   }
 
   draw() {

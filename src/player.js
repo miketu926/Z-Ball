@@ -7,6 +7,7 @@ class Player {
     this.radius = 7;
     this.clicked = "none";
     this.moveSpeed = moveSpeed;
+    this.a = Math.sqrt((this.radius ** 2) / 2);
   }
 
   draw() {

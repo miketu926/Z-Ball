@@ -5,7 +5,7 @@ import StartLane from './start_lane';
 class Game {
   constructor(ctx) {
     this.ctx = ctx;
-    this.moveSpeed = 2.5;
+    this.moveSpeed = 4;
     this.turn = 'right'; // starts off with right zig, then alternates
     this.pieces = []; // new instances of LeftZig and RightZig gets accumulated
     this.score = 0; // score by action (spacebar or click)
@@ -17,7 +17,7 @@ class Game {
   }
 
   generateBackground() {
-    this.ctx.fillStyle = 'lightblue';
+    this.ctx.fillStyle = 'black';
     this.ctx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
     requestAnimationFrame(this.generateBackground);
   }
@@ -31,7 +31,7 @@ class Game {
   }
   
   over() {
-    return false;
+
   }
   
 }

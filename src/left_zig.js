@@ -19,7 +19,8 @@ class LeftZig {
     return Math.sqrt((laneWidth ** 2) / 2);
   }
 
-  constructor(prevX4, prevY4, laneWidth) {
+  constructor(prevX4, prevY4, laneWidth, ctx) {
+    this.ctx = ctx;
     this.rA = this.getRandomA();
     this.yMove = 0; 
     this.p1x = prevX4 - this.aLane(laneWidth);
@@ -30,7 +31,26 @@ class LeftZig {
     this.p3y = this.p2y - this.aLane(laneWidth);
     this.p4x = this.p3x + this.rA;
     this.p4y = this.p3y + this.rA;
+    this.draw = this.draw.bind(this);
+    this.YforNextPiece = this.p2y + this.aLane(laneWidth);
   }
+
+  draw() {
+    this.ctx.beginPath();
+    this.ctx.fillStyle = "green";
+    this.ctx.moveTo(this.p1x, this.p1y + this.yMove);
+    this.ctx.lineTo(this.p2x, this.p2y + this.yMove);
+    this.ctx.lineTo(this.p3x, this.p3y + this.yMove);
+    this.ctx.lineTo(this.p4x, this.p4y + this.yMove);
+    this.ctx.fill();
+
+    this.yMove += 1;
+    this.YforNextPiece += 1;
+
+    requestAnimationFrame(this.draw);
+    
+  }
+  
 }
 
 

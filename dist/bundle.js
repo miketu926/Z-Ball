@@ -97,6 +97,8 @@
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _left_zig__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./left_zig */ "./src/left_zig.js");
 /* harmony import */ var _right_zig__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./right_zig */ "./src/right_zig.js");
+/* harmony import */ var _start_lane__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./start_lane */ "./src/start_lane.js");
+
 
 
 
@@ -104,51 +106,35 @@ class Game {
   constructor(ctx) {
     this.ctx = ctx;
     this.turn = 'right'; // starts off with right zig, then alternates
-    this.path = []; // new instances of LeftZig and RightZig gets accumulated
+    this.pieces = []; // new instances of LeftZig and RightZig gets accumulated
     this.score = 0; // score by action (spacebar or click)
     this.laneWidth = 50;
+    this.generateBackground = this.generateBackground.bind(this);
+    this.StartLane = new _start_lane__WEBPACK_IMPORTED_MODULE_2__["default"](this.ctx, this.laneWidth);
+    this.prevX = this.StartLane.x;
+    this.prevY = this.StartLane.y;
   }
 
   generateBackground() {
     this.ctx.fillStyle = 'lightblue';
     this.ctx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+    requestAnimationFrame(this.generateBackground);
   }
-  
-  generateZigZag(prevX, prevY) {
+
+  generateZigZag(prevX, prevY, laneWidth, ctx) {
     if (this.turn === 'right') {
-      this.turn = 'left';
-      return new _right_zig__WEBPACK_IMPORTED_MODULE_1__["default"](prevX, prevY, this.laneWidth);
+      this.pieces.push(new _right_zig__WEBPACK_IMPORTED_MODULE_1__["default"](prevX, prevY, laneWidth, ctx));
     } else {
-      this.turn = 'right';
-      return new _left_zig__WEBPACK_IMPORTED_MODULE_0__["default"](prevX, prevY, this.laneWidth);
+      this.pieces.push(new _left_zig__WEBPACK_IMPORTED_MODULE_0__["default"](prevX, prevY, laneWidth, ctx));
     }
   }
 
-  drawStartLine() {
-    this.ctx.fillStyle = 'green';
 
-    let rect = {
-      height: 200,
-      width: this.laneWidth, // will this have ref issues?
-      x: (this.ctx.canvas.width - this.laneWidth) / 2, // will this have ref issues?
-      y: -300,
-    };
-
-    this.ctx.fillRect(rect.x, rect.y, rect.width, rect.height);
+  
+  over() {
+    return false;
   }
-
-  drawZigZag (zig) {
-    ctx.beginPath();
-    ctx.fillStyle = "green";
-    ctx.moveTo(zig.p1x, zig.p1y + zig.yMove);
-    ctx.lineTo(zig.p2x, zig.p2y + zig.yMove);
-    ctx.lineTo(zig.p3x, zig.p3y + zig.yMove);
-    ctx.lineTo(zig.p4x, zig.p4y + zig.yMove);
-    ctx.fill();
-  }
-
-
-
+  
 }
 
 
@@ -175,45 +161,37 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let game = new _game__WEBPACK_IMPORTED_MODULE_0__["default"](ctx);
 
-  // setInterval(game.generateBackground, 1);
+  window.game = game;
+
   game.generateBackground();
+  game.StartLane.draw();
 
-  // RUNNNNNNNNN!!!!
-  // const path = () => {
+  game.generateZigZag(game.prevX, game.prevY, game.laneWidth, game.ctx);
 
-  //   game.generateBackground();
-  //   game.drawStartLine();
+  const runGame = function runGame() {
+    game.pieces.slice(-1)[0].draw();
+    // debugger
+    if (game.turn === 'right' && game.pieces.slice(-1)[0].YforNextPiece > 0 ) {
+      // debugger
+      game.turn = 'left';
+      game.generateZigZag(game.pieces.slice(-1)[0].p4x, game.pieces.slice(-1)[0].p4y, game.laneWidth, game.ctx);
+      game.pieces.slice(-1)[0].draw();
+      // debugger
+    } else if (game.turn === 'left' && game.pieces.slice(-1)[0].YforNextPiece > 0 ) {
+      // debugger
+      game.turn = 'right';
+      game.generateZigZag(game.pieces.slice(-1)[0].p2x, game.pieces.slice(-1)[0].p2y, game.laneWidth, game.ctx);
+      game.pieces.slice(-1)[0].draw();
+      // debugger
+    }
     
-  //   if (rect.y < 700) {
-  //     rect.y += 1; // until it ends
-  //   }
+  }
 
-  //   // add additional random right zig zag
-  //   // ctx.beginPath();
-  //   // ctx.fillStyle = "green";
-  //   // ctx.moveTo(rightZig.p1x, rightZig.p1y + rightZig.yMove);
-  //   // ctx.lineTo(rightZig.p2x, rightZig.p2y + rightZig.yMove);
-  //   // ctx.lineTo(rightZig.p3x, rightZig.p3y + rightZig.yMove);
-  //   // ctx.lineTo(rightZig.p4x, rightZig.p4y + rightZig.yMove);
-  //   // ctx.fill();
+  // runGame();
 
-  //   if (rectangle.y >= 0 ) {
-  //     rightZig.yMove += 1;
-  //   }
+  // requestAnimationFrame(runGame);
+  setInterval(runGame, 2000);
 
-    
-
-  //   // add additional random left zig zag
-
-  //   // if (rectangle.y > 700) {
-  //   //   rectangle.y = -rectangle.height;
-  //   // }
-
-  // };
-
-// requestAnimationFrame(path);
-// setInterval(path, 1);
-  
 });
 
 /***/ }),
@@ -248,7 +226,8 @@ class LeftZig {
     return Math.sqrt((laneWidth ** 2) / 2);
   }
 
-  constructor(prevX4, prevY4, laneWidth) {
+  constructor(prevX4, prevY4, laneWidth, ctx) {
+    this.ctx = ctx;
     this.rA = this.getRandomA();
     this.yMove = 0; 
     this.p1x = prevX4 - this.aLane(laneWidth);
@@ -259,7 +238,26 @@ class LeftZig {
     this.p3y = this.p2y - this.aLane(laneWidth);
     this.p4x = this.p3x + this.rA;
     this.p4y = this.p3y + this.rA;
+    this.draw = this.draw.bind(this);
+    this.YforNextPiece = this.p2y + this.aLane(laneWidth);
   }
+
+  draw() {
+    this.ctx.beginPath();
+    this.ctx.fillStyle = "green";
+    this.ctx.moveTo(this.p1x, this.p1y + this.yMove);
+    this.ctx.lineTo(this.p2x, this.p2y + this.yMove);
+    this.ctx.lineTo(this.p3x, this.p3y + this.yMove);
+    this.ctx.lineTo(this.p4x, this.p4y + this.yMove);
+    this.ctx.fill();
+
+    this.yMove += 1;
+    this.YforNextPiece += 1;
+
+    requestAnimationFrame(this.draw);
+    
+  }
+  
 }
 
 
@@ -297,7 +295,8 @@ class RightZig {
     return Math.sqrt((laneWidth ** 2) / 2 );
   }
 
-  constructor(prevX2, prevY2, laneWidth) {
+  constructor(prevX2, prevY2, laneWidth, ctx) {
+    this.ctx = ctx;
     this.rA = this.getRandomA();
     this.yMove = 0;  // increment y by all 1 to go down
     this.p1x = prevX2 + this.aLane(laneWidth);
@@ -308,11 +307,71 @@ class RightZig {
     this.p3y = this.p2y - this.rA;
     this.p4x = this.p3x + this.aLane(laneWidth);
     this.p4y = this.p3y + this.aLane(laneWidth);
+    this.draw = this.draw.bind(this);
+    this.YforNextPiece = this.p4y + this.aLane(laneWidth);
   }
+
+  draw() {
+    this.ctx.beginPath();
+    this.ctx.fillStyle = "green";
+    this.ctx.moveTo(this.p1x, this.p1y + this.yMove);
+    this.ctx.lineTo(this.p2x, this.p2y + this.yMove);
+    this.ctx.lineTo(this.p3x, this.p3y + this.yMove);
+    this.ctx.lineTo(this.p4x, this.p4y + this.yMove);
+    this.ctx.fill();
+
+    this.yMove += 1;
+    this.YforNextPiece += 1;
+
+
+    requestAnimationFrame(this.draw);
+
+  }
+  
 }
 
 
 /* harmony default export */ __webpack_exports__["default"] = (RightZig);
+
+/***/ }),
+
+/***/ "./src/start_lane.js":
+/*!***************************!*\
+  !*** ./src/start_lane.js ***!
+  \***************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+class StartLane {
+  constructor(ctx, laneWidth) {
+    this.ctx = ctx;
+    this.height = 200;
+    this.laneWidth = laneWidth;
+    this.x = (this.ctx.canvas.width - laneWidth) / 2;
+    this.y = -200;
+    this.draw = this.draw.bind(this);
+  }
+
+  draw() {
+    this.ctx.fillStyle = 'green';
+    this.ctx.fillRect(this.x, this.y, this.laneWidth, this.height);
+
+    if (this.y < this.ctx.canvas.height) {
+      this.y += 1;
+    }
+
+    // setInterval(this.draw);
+    requestAnimationFrame(this.draw);
+  }
+
+
+  
+}
+
+
+/* harmony default export */ __webpack_exports__["default"] = (StartLane);
 
 /***/ })
 

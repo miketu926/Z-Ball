@@ -7,43 +7,35 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let game = new Game(ctx);
 
-  // setInterval(game.generateBackground, 1);
+  window.game = game;
+
   game.generateBackground();
+  game.StartLane.draw();
 
-  // RUNNNNNNNNN!!!!
-  // const path = () => {
+  game.generateZigZag(game.prevX, game.prevY, game.laneWidth, game.ctx);
 
-  //   game.generateBackground();
-  //   game.drawStartLine();
+  const runGame = function runGame() {
+    game.pieces.slice(-1)[0].draw();
+    // debugger
+    if (game.turn === 'right' && game.pieces.slice(-1)[0].YforNextPiece > 0 ) {
+      // debugger
+      game.turn = 'left';
+      game.generateZigZag(game.pieces.slice(-1)[0].p4x, game.pieces.slice(-1)[0].p4y, game.laneWidth, game.ctx);
+      game.pieces.slice(-1)[0].draw();
+      // debugger
+    } else if (game.turn === 'left' && game.pieces.slice(-1)[0].YforNextPiece > 0 ) {
+      // debugger
+      game.turn = 'right';
+      game.generateZigZag(game.pieces.slice(-1)[0].p2x, game.pieces.slice(-1)[0].p2y, game.laneWidth, game.ctx);
+      game.pieces.slice(-1)[0].draw();
+      // debugger
+    }
     
-  //   if (rect.y < 700) {
-  //     rect.y += 1; // until it ends
-  //   }
+  }
 
-  //   // add additional random right zig zag
-  //   // ctx.beginPath();
-  //   // ctx.fillStyle = "green";
-  //   // ctx.moveTo(rightZig.p1x, rightZig.p1y + rightZig.yMove);
-  //   // ctx.lineTo(rightZig.p2x, rightZig.p2y + rightZig.yMove);
-  //   // ctx.lineTo(rightZig.p3x, rightZig.p3y + rightZig.yMove);
-  //   // ctx.lineTo(rightZig.p4x, rightZig.p4y + rightZig.yMove);
-  //   // ctx.fill();
+  // runGame();
 
-  //   if (rectangle.y >= 0 ) {
-  //     rightZig.yMove += 1;
-  //   }
+  // requestAnimationFrame(runGame);
+  setInterval(runGame, 2000);
 
-    
-
-  //   // add additional random left zig zag
-
-  //   // if (rectangle.y > 700) {
-  //   //   rectangle.y = -rectangle.height;
-  //   // }
-
-  // };
-
-// requestAnimationFrame(path);
-// setInterval(path, 1);
-  
 });

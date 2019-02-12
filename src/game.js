@@ -1,55 +1,40 @@
 import LeftZig from './left_zig';
 import RightZig from './right_zig';
+import StartLane from './start_lane';
 
 class Game {
   constructor(ctx) {
     this.ctx = ctx;
     this.turn = 'right'; // starts off with right zig, then alternates
-    this.path = []; // new instances of LeftZig and RightZig gets accumulated
+    this.pieces = []; // new instances of LeftZig and RightZig gets accumulated
     this.score = 0; // score by action (spacebar or click)
     this.laneWidth = 50;
+    this.generateBackground = this.generateBackground.bind(this);
+    this.StartLane = new StartLane(this.ctx, this.laneWidth);
+    this.prevX = this.StartLane.x;
+    this.prevY = this.StartLane.y;
   }
 
   generateBackground() {
     this.ctx.fillStyle = 'lightblue';
     this.ctx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+    requestAnimationFrame(this.generateBackground);
   }
-  
-  generateZigZag(prevX, prevY) {
+
+  generateZigZag(prevX, prevY, laneWidth, ctx) {
     if (this.turn === 'right') {
-      this.turn = 'left';
-      return new RightZig(prevX, prevY, this.laneWidth);
+      this.pieces.push(new RightZig(prevX, prevY, laneWidth, ctx));
     } else {
-      this.turn = 'right';
-      return new LeftZig(prevX, prevY, this.laneWidth);
+      this.pieces.push(new LeftZig(prevX, prevY, laneWidth, ctx));
     }
   }
 
-  drawStartLine() {
-    this.ctx.fillStyle = 'green';
 
-    let rect = {
-      height: 200,
-      width: this.laneWidth, // will this have ref issues?
-      x: (this.ctx.canvas.width - this.laneWidth) / 2, // will this have ref issues?
-      y: -300,
-    };
-
-    this.ctx.fillRect(rect.x, rect.y, rect.width, rect.height);
+  
+  over() {
+    return false;
   }
-
-  drawZigZag (zig) {
-    ctx.beginPath();
-    ctx.fillStyle = "green";
-    ctx.moveTo(zig.p1x, zig.p1y + zig.yMove);
-    ctx.lineTo(zig.p2x, zig.p2y + zig.yMove);
-    ctx.lineTo(zig.p3x, zig.p3y + zig.yMove);
-    ctx.lineTo(zig.p4x, zig.p4y + zig.yMove);
-    ctx.fill();
-  }
-
-
-
+  
 }
 
 

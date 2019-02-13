@@ -39,12 +39,22 @@ time, mark, audio, video {
   letter-spacing: 1px;
 }
 
+.font-directions {
+  color: white;
+  font-size: 15x;
+  /* letter-spacing: 1px; */
+}
+
 .background {
   width: auto;
   height: 100%;
   justify-content: center;
   background-color: black;
   /* background-color: navy; */
+}
+
+.title {
+  align-self: center;
 }
 
 .flex {

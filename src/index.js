@@ -1,7 +1,6 @@
 import Game from './game';
 import Player from './player';
 
-document.addEventListener("DOMContentLoaded", () => {
   const ctx = document.getElementById("background-layer").getContext('2d');
   ctx.canvas.width = 500;
   ctx.canvas.height = 700;
@@ -85,5 +84,3 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   requestAnimationFrame(runGame);
-
-});

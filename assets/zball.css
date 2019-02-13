@@ -34,13 +34,13 @@ time, mark, audio, video {
 }
 
 .font-white {
-  color: white;
+  color: #d0d0d0;
   font-size: 30px;
   letter-spacing: 1px;
 }
 
 .font-directions {
-  color: white;
+  color: #d0d0d0;
   font-size: 15x;
   /* letter-spacing: 1px; */
 }
@@ -91,4 +91,29 @@ canvas {
   border-left: 1px solid white;
   border-right: 1px solid white;
   margin-top: 30px;
+}
+
+#links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#links img {
+  transition: transform 0.2s ease;
+  cursor: pointer;
+}
+
+
+#links img:hover {
+  transform: scale(1.2);
+}
+
+#github {
+  height: 50px;
+  margin-right: 40px;
+}
+
+#linkedin {
+  height: 35px;
 }

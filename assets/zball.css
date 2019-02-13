@@ -1,0 +1,82 @@
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  font: inherit;
+  color: inherit;
+  font-weight: inherit;
+  font-style: inherit;
+  font-size: 100%;
+  font-family: inherit;
+	vertical-align: baseline;
+  text-align: inherit;
+  text-decoration: inherit;
+  vertical-align: inherit;
+	background: transparent;
+	list-style: none;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+.font-white {
+  color: white;
+  font-size: 30px;
+}
+
+.background {
+  width: auto;
+  height: 100%;
+  justify-content: center;
+  background-color: black;
+  /* background-color: navy; */
+}
+
+.flex {
+  display: flex;
+}
+
+.center-col {
+  align-items: center;
+}
+
+.center-row {
+  justify-items: center;
+  justify-content: space-evenly;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.flex-row {
+  flex-direction: row;
+}
+
+.main {
+  width: 500px;
+  height: 100vh;
+}
+
+.contact {
+  justify-content: space-evenly;
+}
+
+canvas {
+  border: 1px solid white;
+  margin-top: 30px;
+}

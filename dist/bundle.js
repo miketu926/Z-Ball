@@ -105,7 +105,7 @@ __webpack_require__.r(__webpack_exports__);
 class Game {
   constructor(ctx) {
     this.ctx = ctx;
-    this.moveSpeed = 4;
+    this.moveSpeed = 3;
     this.turn = 'right'; // starts off with right zig, then alternates
     this.pieces = []; // new instances of LeftZig and RightZig gets accumulated
     this.score = 0; // score by action (spacebar or click)
@@ -160,10 +160,6 @@ document.addEventListener("DOMContentLoaded", () => {
   ctx.canvas.width = 500;
   ctx.canvas.height = 700;
 
-  const playerCtx = document.getElementById("player-layer").getContext('2d');
-  playerCtx.canvas.width = 500;
-  playerCtx.canvas.height = 700;
-
   let game = new _game__WEBPACK_IMPORTED_MODULE_0__["default"](ctx);
   let player = new _player__WEBPACK_IMPORTED_MODULE_1__["default"](ctx, game.moveSpeed);
 
@@ -171,23 +167,25 @@ document.addEventListener("DOMContentLoaded", () => {
   window.pieces = game.pieces;
   window.player = player;
   window.ctx = ctx;
-  window.playerCtx = playerCtx;
-
+  
   ctx.canvas.addEventListener("click", clickHandler);
-  // ctx.canvas.addEventListener("keyup", clickHandler); // for spacebar
-
+  window.addEventListener("keyup", clickHandler);
+  
   function clickHandler(e) {
-    // if (e.keyCode == 32 || e.type === 'click') {  to implement for spacebar
+    if (e.keyCode === 32 || e.type === 'click') {
       if (player.clicked === "right") {
         player.clicked = "left";
+        game.score += 1;
       } else {
         player.clicked = "right";
+        game.score += 1;
       }
-    // }
+    }
   }
+
   game.generateBackground();
   game.StartLane.draw();
-
+  
   game.generateZigZag(game.prevX, game.prevY, game.laneWidth, game.ctx, game.moveSpeed);
   game.pieces.slice(-1)[0].draw();
   
@@ -213,35 +211,30 @@ document.addEventListener("DOMContentLoaded", () => {
     } else {
       player.moveLeft();
     }
-
-
+    
     if (game.ctx.getImageData(player.x + player.a - 1, player.y - player.a - 1, 1, 1).data[0] == 0 && 
         game.ctx.getImageData(player.x + player.a - 1, player.y - player.a - 1, 1, 1).data[1] == 0 && 
         game.ctx.getImageData(player.x + player.a - 1, player.y - player.a - 1, 1, 1).data[2] == 0 ) {
-          // alert("game over");
-          window.location.reload();
-        // cancelAnimationFrame(run);
+      window.location.reload();
     } else if (game.ctx.getImageData(player.x + player.a - 1, player.y + player.a - 1, 1, 1).data[0] == 0 &&
-                game.ctx.getImageData(player.x + player.a - 1, player.y + player.a - 1, 1, 1).data[1] == 0 &&
-                game.ctx.getImageData(player.x + player.a - 1, player.y + player.a - 1, 1, 1).data[2] == 0) {
-          // alert("game over");
-          window.location.reload();
-      // cancelAnimationFrame(run);
+      game.ctx.getImageData(player.x + player.a - 1, player.y + player.a - 1, 1, 1).data[1] == 0 &&
+      game.ctx.getImageData(player.x + player.a - 1, player.y + player.a - 1, 1, 1).data[2] == 0) {
+      window.location.reload();
     } else if (game.ctx.getImageData(player.x - player.a - 1, player.y + player.a - 1, 1, 1).data[0] == 0 &&
-                game.ctx.getImageData(player.x - player.a - 1, player.y + player.a - 1, 1, 1).data[1] == 0 &&
-                game.ctx.getImageData(player.x - player.a - 1, player.y + player.a - 1, 1, 1).data[2] == 0) {
-          // alert("game over");
-          window.location.reload();
-      // cancelAnimationFrame(run);
+      game.ctx.getImageData(player.x - player.a - 1, player.y + player.a - 1, 1, 1).data[1] == 0 &&
+      game.ctx.getImageData(player.x - player.a - 1, player.y + player.a - 1, 1, 1).data[2] == 0) {
+      window.location.reload();
     } else if (game.ctx.getImageData(player.x - player.a - 1, player.y - player.a - 1, 1, 1).data[0] == 0 &&
-                game.ctx.getImageData(player.x - player.a - 1, player.y - player.a - 1, 1, 1).data[1] == 0 &&
-                game.ctx.getImageData(player.x - player.a - 1, player.y - player.a - 1, 1, 1).data[2] == 0) {
-          // alert("game over");
-          window.location.reload();
-      // cancelAnimationFrame(run);
+      game.ctx.getImageData(player.x - player.a - 1, player.y - player.a - 1, 1, 1).data[1] == 0 &&
+      game.ctx.getImageData(player.x - player.a - 1, player.y - player.a - 1, 1, 1).data[2] == 0) {
+      window.location.reload();
     }
-    
-    
+
+    game.ctx.font = '40px Arial';
+    game.ctx.fillStyle = "white";
+    game.ctx.textAlign = "center";
+    game.ctx.fillText(`${game.score}`, game.ctx.canvas.width/2, 40);
+
     requestAnimationFrame(runGame);
   }
 

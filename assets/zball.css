@@ -36,6 +36,7 @@ time, mark, audio, video {
 .font-white {
   color: white;
   font-size: 30px;
+  letter-spacing: 1px;
 }
 
 .background {
@@ -77,6 +78,7 @@ time, mark, audio, video {
 }
 
 canvas {
-  border: 1px solid white;
+  border-left: 1px solid white;
+  border-right: 1px solid white;
   margin-top: 30px;
 }

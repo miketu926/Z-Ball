@@ -175,7 +175,7 @@ function play() {
       } else { // game.over === true
       requestAnimationFrame(gameOver);
       ctx.canvas.removeEventListener("click", clickHandler);
-      window.removeEventListener("keyup", clickHandler);
+      window.removeEventListener("keydown", clickHandler);
 
       if (game.score > top5[4]) {
         var topdiv = document.createElement("div");

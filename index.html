@@ -14,12 +14,15 @@
 
   <div class='flex background flex-row center-row'>
 
-    <div class='title'>
+    <div class='title flex-col'>
       <h1 class='font-white'>ZIG ZAG</h1>
       <h2 class='font-directions'>mouse click / space</h2>
-      <div class='flex flex-row'>
-        <ul id='high-score-name' class='font-white'>NAME</ul>
-        <ul id='high-score-score' class='font-white'>SCORE</ul>
+      <div class='flex flex-col scorebox'>
+        <div class='top5-title'>TOP 5</div>
+        <div class='flex flex-row scores'>
+          <ul id='high-score-name' class='font-white'></ul>
+          <ul id='high-score-score' class='font-white'></ul>
+        </div>
       </div>
     </div>
 

@@ -55,6 +55,7 @@ time, mark, audio, video {
 
 .title {
   align-self: center;
+  text-align: center;
 }
 
 .flex {
@@ -120,12 +121,35 @@ canvas {
 
 #high-score-name {
   font-size: 20px;
+  margin-right: 20px;
 }
 
 #high-score-score {
   font-size: 20px;
+  margin-left: 20px;
 }
 
 .list-item {
   font-size: 15px;
+}
+
+.scorebox {
+  border: 1px solid #d0d0d0;
+  padding: 20px;
+  margin: 10px;
+  width: 250px;
+  height: 170px;
+  align-items: center;
+}
+
+.top5-title{
+  font-size: 20px;
+  color: #d0d0d0;
+  border-bottom: 1px solid #d0d0d0;
+  margin-bottom: 10px;
+}
+
+.scores {
+  width: auto;
+  justify-content: space-evenly;
 }

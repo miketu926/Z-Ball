@@ -10474,8 +10474,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _left_zig__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./left_zig */ "./src/left_zig.js");
 /* harmony import */ var _right_zig__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./right_zig */ "./src/right_zig.js");
 /* harmony import */ var _start_lane__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./start_lane */ "./src/start_lane.js");
-/* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./util */ "./src/util.js");
-
 
 
 
@@ -10483,7 +10481,7 @@ __webpack_require__.r(__webpack_exports__);
 class Game {
   constructor(ctx) {
     this.ctx = ctx;
-    this.moveSpeed = 4;
+    this.moveSpeed = 3;
     this.turn = 'right'; // starts off with right zig, then alternates
     this.pieces = []; // new instances of LeftZig and RightZig gets accumulated
     this.score = 0; // score by action (spacebar or click)
@@ -10538,34 +10536,34 @@ ctx.canvas.width = 500;
 ctx.canvas.height = 700;
 var doc5 = null;
 var top5 = [];
+var scoreboard = [];
+var doc5array = null;
+var array = [];
 
 Object(_util__WEBPACK_IMPORTED_MODULE_2__["fetchScores"])().then(scores => {
   var nameUL = document.getElementById('high-score-name');
   var scoreUL = document.getElementById('high-score-score');
-  var scoreboard = [];
   scoreboard.push(Object.entries(scores));
   
-  // sort by decdending scores
-  function compareSecondColumn(a, b) {
-    if (a[1] === b[1]) {
-      return 0;
-    }
-    else {
-      return (a[1] > b[1]) ? -1 : 1;
-    }
-  }
-  scoreboard[0].sort(compareSecondColumn);
-  doc5 = scoreboard[0].sort(compareSecondColumn);
-  // end sort
+  doc5 = scoreboard[0];
+  doc5array = Object.entries(doc5);
 
-  scoreboard[0].forEach((el, idx) => {
+  doc5array.forEach(el => {
+    array.push(el[1][1]);
+  });
+
+  array.sort(function(a,b) {
+    return b.score - a.score;
+  });
+
+  array.forEach((el, idx) => {
     if (idx < 5) {
       var nameList = document.createElement("LI");
       var scoreList = document.createElement("LI");
       nameList.className = 'list-item';
       scoreList.className = 'list-item scores-list';
-      var name = document.createTextNode(el[0]);
-      var score = document.createTextNode(el[1]);
+      var name = document.createTextNode(el.name);
+      var score = document.createTextNode(el.score);
       nameList.appendChild(name);
       nameUL.appendChild(nameList);
       scoreList.appendChild(score);
@@ -10585,10 +10583,15 @@ function play() {
   let game = new _game__WEBPACK_IMPORTED_MODULE_0__["default"](ctx);
   let player = new _player__WEBPACK_IMPORTED_MODULE_1__["default"](ctx, game.moveSpeed);
 
+  // start window test
   window.player = player;
   window.game = game;
   window.top5 = top5;
-  
+  window.doc5 = doc5;
+  window.fetchScores = _util__WEBPACK_IMPORTED_MODULE_2__["fetchScores"];
+  window.scoreboard = scoreboard;
+  window.doc5array = doc5array;
+  window.array = array;
   // end window test
 
   ctx.canvas.addEventListener("click", clickHandler);
@@ -10715,7 +10718,9 @@ function play() {
         myForm.method = 'POST';
         myForm.onsubmit = (e) => {
           e.preventDefault();
-          Object(_util__WEBPACK_IMPORTED_MODULE_2__["postScore"])(document.getElementById('name').value, game.score);
+          Object(_util__WEBPACK_IMPORTED_MODULE_2__["postScore"])(document.getElementById('name').value, game.score).then(() =>{
+            window.location.reload();
+          });
         };
         
         let inputEl = document.createElement("INPUT");
@@ -10723,10 +10728,15 @@ function play() {
         inputEl.name = 'name';
         inputEl.value = '';
         inputEl.id = 'name';
-        // inputEl.style = 'width: 120px;height:38px;font-size:36px;background-color:#c9cacc;border: 1px solid #c9cacc;';
         inputEl.maxLength = "15";
 
+        let submit = document.createElement("INPUT");
+        submit.type = 'SUBMIT';
+        submit.value = 'WIN';
+
+        
         myForm.appendChild(inputEl);
+        myForm.appendChild(submit);
         topdiv.appendChild(myForm);
 
         document.getElementById('left-side').appendChild(topdiv);

@@ -1,12 +1,11 @@
 import LeftZig from './left_zig';
 import RightZig from './right_zig';
 import StartLane from './start_lane';
-import { generateHighScoreForm } from './util';
 
 class Game {
   constructor(ctx) {
     this.ctx = ctx;
-    this.moveSpeed = 4;
+    this.moveSpeed = 3;
     this.turn = 'right'; // starts off with right zig, then alternates
     this.pieces = []; // new instances of LeftZig and RightZig gets accumulated
     this.score = 0; // score by action (spacebar or click)

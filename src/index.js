@@ -7,34 +7,34 @@ ctx.canvas.width = 500;
 ctx.canvas.height = 700;
 var doc5 = null;
 var top5 = [];
+var scoreboard = [];
+var doc5array = null;
+var array = [];
 
 fetchScores().then(scores => {
   var nameUL = document.getElementById('high-score-name');
   var scoreUL = document.getElementById('high-score-score');
-  var scoreboard = [];
   scoreboard.push(Object.entries(scores));
   
-  // sort by decdending scores
-  function compareSecondColumn(a, b) {
-    if (a[1] === b[1]) {
-      return 0;
-    }
-    else {
-      return (a[1] > b[1]) ? -1 : 1;
-    }
-  }
-  scoreboard[0].sort(compareSecondColumn);
-  doc5 = scoreboard[0].sort(compareSecondColumn);
-  // end sort
+  doc5 = scoreboard[0];
+  doc5array = Object.entries(doc5);
 
-  scoreboard[0].forEach((el, idx) => {
+  doc5array.forEach(el => {
+    array.push(el[1][1]);
+  });
+
+  array.sort(function(a,b) {
+    return b.score - a.score;
+  });
+
+  array.forEach((el, idx) => {
     if (idx < 5) {
       var nameList = document.createElement("LI");
       var scoreList = document.createElement("LI");
       nameList.className = 'list-item';
       scoreList.className = 'list-item scores-list';
-      var name = document.createTextNode(el[0]);
-      var score = document.createTextNode(el[1]);
+      var name = document.createTextNode(el.name);
+      var score = document.createTextNode(el.score);
       nameList.appendChild(name);
       nameUL.appendChild(nameList);
       scoreList.appendChild(score);
@@ -54,10 +54,15 @@ function play() {
   let game = new Game(ctx);
   let player = new Player(ctx, game.moveSpeed);
 
+  // start window test
   window.player = player;
   window.game = game;
   window.top5 = top5;
-  
+  window.doc5 = doc5;
+  window.fetchScores = fetchScores;
+  window.scoreboard = scoreboard;
+  window.doc5array = doc5array;
+  window.array = array;
   // end window test
 
   ctx.canvas.addEventListener("click", clickHandler);
@@ -184,7 +189,9 @@ function play() {
         myForm.method = 'POST';
         myForm.onsubmit = (e) => {
           e.preventDefault();
-          postScore(document.getElementById('name').value, game.score);
+          postScore(document.getElementById('name').value, game.score).then(() =>{
+            window.location.reload();
+          });
         };
         
         let inputEl = document.createElement("INPUT");
@@ -192,10 +199,15 @@ function play() {
         inputEl.name = 'name';
         inputEl.value = '';
         inputEl.id = 'name';
-        // inputEl.style = 'width: 120px;height:38px;font-size:36px;background-color:#c9cacc;border: 1px solid #c9cacc;';
         inputEl.maxLength = "15";
 
+        let submit = document.createElement("INPUT");
+        submit.type = 'SUBMIT';
+        submit.value = 'WIN';
+
+        
         myForm.appendChild(inputEl);
+        myForm.appendChild(submit);
         topdiv.appendChild(myForm);
 
         document.getElementById('left-side').appendChild(topdiv);

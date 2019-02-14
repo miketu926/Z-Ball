@@ -172,7 +172,7 @@ function play() {
 
     if (game.over === false) {
       requestAnimationFrame(runGame);
-    } else { // game.over === true
+      } else { // game.over === true
       requestAnimationFrame(gameOver);
       ctx.canvas.removeEventListener("click", clickHandler);
       window.removeEventListener("keyup", clickHandler);
@@ -211,8 +211,9 @@ function play() {
         topdiv.appendChild(myForm);
 
         document.getElementById('left-side').appendChild(topdiv);
-      }
-      
+        } else {
+          window.location.reload();
+        }
       }
     }
     

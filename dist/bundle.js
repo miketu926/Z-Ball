@@ -10481,7 +10481,7 @@ __webpack_require__.r(__webpack_exports__);
 class Game {
   constructor(ctx) {
     this.ctx = ctx;
-    this.moveSpeed = 3;
+    this.moveSpeed = 3.5;
     this.turn = 'right'; // starts off with right zig, then alternates
     this.pieces = []; // new instances of LeftZig and RightZig gets accumulated
     this.score = 0; // score by action (spacebar or click)
@@ -10701,7 +10701,7 @@ function play() {
 
     if (game.over === false) {
       requestAnimationFrame(runGame);
-    } else { // game.over === true
+      } else { // game.over === true
       requestAnimationFrame(gameOver);
       ctx.canvas.removeEventListener("click", clickHandler);
       window.removeEventListener("keyup", clickHandler);
@@ -10740,8 +10740,9 @@ function play() {
         topdiv.appendChild(myForm);
 
         document.getElementById('left-side').appendChild(topdiv);
-      }
-      
+        } else {
+          window.location.reload();
+        }
       }
     }
     

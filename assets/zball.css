@@ -81,6 +81,7 @@ time, mark, audio, video {
 .main {
   width: 500px;
   height: 100vh;
+  justify-content: center;
 }
 
 .contact {
@@ -90,7 +91,6 @@ time, mark, audio, video {
 canvas {
   border-left: 1px solid white;
   border-right: 1px solid white;
-  margin-top: 30px;
 }
 
 #links {
@@ -116,4 +116,16 @@ canvas {
 
 #linkedin {
   height: 35px;
+}
+
+#high-score-name {
+  font-size: 20px;
+}
+
+#high-score-score {
+  font-size: 20px;
+}
+
+.list-item {
+  font-size: 15px;
 }

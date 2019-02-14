@@ -26,13 +26,12 @@ export const checkIfScoreIsgood = (score, scores) => {
   arr = arr.sort(function (a, b) { return a - b }).reverse()
   for (let i = 0; i < arr.length; i++) {
     if (arr[i] < score) {
-      return i
+      return i;
     } else if (i > 4) {
       return -1;
     }
   }
   return arr.length;
-
 }
 
 export const produceUl = (scoresArray, rank, score) => {

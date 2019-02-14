@@ -10474,6 +10474,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _left_zig__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./left_zig */ "./src/left_zig.js");
 /* harmony import */ var _right_zig__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./right_zig */ "./src/right_zig.js");
 /* harmony import */ var _start_lane__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./start_lane */ "./src/start_lane.js");
+/* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./util */ "./src/util.js");
+
 
 
 
@@ -10481,7 +10483,7 @@ __webpack_require__.r(__webpack_exports__);
 class Game {
   constructor(ctx) {
     this.ctx = ctx;
-    this.moveSpeed = 0;
+    this.moveSpeed = 4;
     this.turn = 'right'; // starts off with right zig, then alternates
     this.pieces = []; // new instances of LeftZig and RightZig gets accumulated
     this.score = 0; // score by action (spacebar or click)
@@ -10490,6 +10492,8 @@ class Game {
     this.StartLane = new _start_lane__WEBPACK_IMPORTED_MODULE_2__["default"](this.ctx, this.laneWidth, this.moveSpeed);
     this.prevX = this.StartLane.x;
     this.prevY = this.StartLane.y;
+    this.over = false;
+    // this.top5 = top5;
   }
 
   generateBackground() {
@@ -10504,10 +10508,6 @@ class Game {
     } else {
       this.pieces.push(new _left_zig__WEBPACK_IMPORTED_MODULE_0__["default"](prevX, prevY, laneWidth, ctx, game));
     }
-  }
-  
-  over() {
-
   }
   
 }
@@ -10533,48 +10533,63 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-  const ctx = document.getElementById("background-layer").getContext('2d');
-  ctx.canvas.width = 500;
-  ctx.canvas.height = 700;
+const ctx = document.getElementById("background-layer").getContext('2d');
+ctx.canvas.width = 500;
+ctx.canvas.height = 700;
+var doc5 = null;
+var top5 = [];
 
-  Object(_util__WEBPACK_IMPORTED_MODULE_2__["fetchScores"])().then(scores => {
-    var nameUL = document.getElementById('high-score-name');
-    var scoreUL = document.getElementById('high-score-score');
-    var scoreboard = [];
-    scoreboard.push(Object.entries(scores));
-
-    // sort by decdending scores
-    function compareSecondColumn(a, b) {
-      if (a[1] === b[1]) {
-        return 0;
-      }
-      else {
-        return (a[1] > b[1]) ? -1 : 1;
-      }
+Object(_util__WEBPACK_IMPORTED_MODULE_2__["fetchScores"])().then(scores => {
+  var nameUL = document.getElementById('high-score-name');
+  var scoreUL = document.getElementById('high-score-score');
+  var scoreboard = [];
+  scoreboard.push(Object.entries(scores));
+  
+  // sort by decdending scores
+  function compareSecondColumn(a, b) {
+    if (a[1] === b[1]) {
+      return 0;
     }
-    scoreboard[0].sort(compareSecondColumn);
-    // end sort
+    else {
+      return (a[1] > b[1]) ? -1 : 1;
+    }
+  }
+  scoreboard[0].sort(compareSecondColumn);
+  doc5 = scoreboard[0].sort(compareSecondColumn);
+  // end sort
 
-    scoreboard[0].forEach( (el, idx) => {
-      if (idx < 5) {
-        var nameList = document.createElement("LI");
-        var scoreList = document.createElement("LI");
-        nameList.className = 'list-item';
-        scoreList.className = 'list-item';
-        var name = document.createTextNode(el[0]);
-        var score = document.createTextNode(el[1]);
-        nameList.appendChild(name);
-        nameUL.appendChild(nameList);
-        scoreList.appendChild(score);
-        scoreUL.appendChild(scoreList);
-      } else {
-        return;
-      }
-    });
+  scoreboard[0].forEach((el, idx) => {
+    if (idx < 5) {
+      var nameList = document.createElement("LI");
+      var scoreList = document.createElement("LI");
+      nameList.className = 'list-item';
+      scoreList.className = 'list-item scores-list';
+      var name = document.createTextNode(el[0]);
+      var score = document.createTextNode(el[1]);
+      nameList.appendChild(name);
+      nameUL.appendChild(nameList);
+      scoreList.appendChild(score);
+      scoreUL.appendChild(scoreList);
+    } else {
+      return;
+    }
+    
   });
+}).then(() => {
+  doc5 = document.getElementsByClassName('scores-list');
+  [0,1,2,3,4].forEach(el => top5.push(parseInt(doc5[el].innerHTML)));
+  play();
+});
 
+function play() {
   let game = new _game__WEBPACK_IMPORTED_MODULE_0__["default"](ctx);
   let player = new _player__WEBPACK_IMPORTED_MODULE_1__["default"](ctx, game.moveSpeed);
+
+  window.player = player;
+  window.game = game;
+  window.top5 = top5;
+  
+  // end window test
 
   ctx.canvas.addEventListener("click", clickHandler);
   window.addEventListener("keyup", clickHandler);
@@ -10651,33 +10666,78 @@ __webpack_require__.r(__webpack_exports__);
     game.ctx.fillText(`${game.score}`, game.ctx.canvas.width / 2, 40);
     
     if (game.ctx.getImageData(player.x + player.a - 1, player.y - player.a - 1, 1, 1).data[0] == 0 && 
-        game.ctx.getImageData(player.x + player.a - 1, player.y - player.a - 1, 1, 1).data[1] == 0 && 
-        game.ctx.getImageData(player.x + player.a - 1, player.y - player.a - 1, 1, 1).data[2] == 0 ) {
-      cancelAnimationFrame(runGame);
-      window.location.reload();
+      game.ctx.getImageData(player.x + player.a - 1, player.y - player.a - 1, 1, 1).data[1] == 0 && 
+      game.ctx.getImageData(player.x + player.a - 1, player.y - player.a - 1, 1, 1).data[2] == 0 ) {
+        // window.location.reload();
+        game.over = true;
     } else if (game.ctx.getImageData(player.x + player.a - 1, player.y + player.a - 1, 1, 1).data[0] == 0 &&
       game.ctx.getImageData(player.x + player.a - 1, player.y + player.a - 1, 1, 1).data[1] == 0 &&
       game.ctx.getImageData(player.x + player.a - 1, player.y + player.a - 1, 1, 1).data[2] == 0) {
-      cancelAnimationFrame(runGame);
-      window.location.reload();
+        // window.location.reload();
+        game.over = true;
     } else if (game.ctx.getImageData(player.x - player.a - 1, player.y + player.a - 1, 1, 1).data[0] == 0 &&
       game.ctx.getImageData(player.x - player.a - 1, player.y + player.a - 1, 1, 1).data[1] == 0 &&
       game.ctx.getImageData(player.x - player.a - 1, player.y + player.a - 1, 1, 1).data[2] == 0) {
-      cancelAnimationFrame(runGame);
-      window.location.reload();
+        // window.location.reload();
+        game.over = true;
     } else if (game.ctx.getImageData(player.x - player.a - 1, player.y - player.a - 1, 1, 1).data[0] == 0 &&
       game.ctx.getImageData(player.x - player.a - 1, player.y - player.a - 1, 1, 1).data[1] == 0 &&
       game.ctx.getImageData(player.x - player.a - 1, player.y - player.a - 1, 1, 1).data[2] == 0) {
-      cancelAnimationFrame(runGame);
-      window.location.reload();
+        // window.location.reload();
+        game.over = true;
     }
 
+    function gameOver() {
+      game.ctx.font = '40px Arial';
+      game.ctx.fillStyle = "#70adf1";
+      game.ctx.textAlign = "center";
+      game.ctx.fillText(`${game.score}`, game.ctx.canvas.width / 2, 40);
+      
+      requestAnimationFrame(gameOver);
+    }
 
+    if (game.over === false) {
+      requestAnimationFrame(runGame);
+    } else { // game.over === true
+      requestAnimationFrame(gameOver);
+      ctx.canvas.removeEventListener("click", clickHandler);
+      window.removeEventListener("keyup", clickHandler);
 
+      if (game.score > top5[4]) {
+        var topdiv = document.createElement("div");
+        topdiv.className = 'top-score-message flex flex-col font-white';
+        let message = document.createTextNode("Top 5 - Enter Name:");
+        topdiv.appendChild(message);
+
+        let myForm = document.createElement('FORM');
+        myForm.className = 'form';
+        myForm.name = 'myForm';
+        myForm.method = 'POST';
+        myForm.onsubmit = (e) => {
+          e.preventDefault();
+          Object(_util__WEBPACK_IMPORTED_MODULE_2__["postScore"])(document.getElementById('name').value, game.score);
+        };
+        
+        let inputEl = document.createElement("INPUT");
+        inputEl.type = 'TEXT';
+        inputEl.name = 'name';
+        inputEl.value = '';
+        inputEl.id = 'name';
+        // inputEl.style = 'width: 120px;height:38px;font-size:36px;background-color:#c9cacc;border: 1px solid #c9cacc;';
+        inputEl.maxLength = "15";
+
+        myForm.appendChild(inputEl);
+        topdiv.appendChild(myForm);
+
+        document.getElementById('left-side').appendChild(topdiv);
+      }
+      
+      }
+    }
+    
     requestAnimationFrame(runGame);
   }
 
-  requestAnimationFrame(runGame);
 
 /***/ }),
 
@@ -10977,13 +11037,12 @@ const checkIfScoreIsgood = (score, scores) => {
   arr = arr.sort(function (a, b) { return a - b }).reverse()
   for (let i = 0; i < arr.length; i++) {
     if (arr[i] < score) {
-      return i
+      return i;
     } else if (i > 4) {
       return -1;
     }
   }
   return arr.length;
-
 }
 
 const produceUl = (scoresArray, rank, score) => {

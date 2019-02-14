@@ -173,3 +173,11 @@ canvas {
   padding-bottom: 9px;
   padding-top: 5px;
 }
+
+input[type="submit"] {
+  margin-left: 8px;
+  width: 44px;
+  background: black;
+  border: 1px solid #70adf1;
+  color: white;
+}

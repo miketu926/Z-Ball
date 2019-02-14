@@ -1,11 +1,12 @@
 import LeftZig from './left_zig';
 import RightZig from './right_zig';
 import StartLane from './start_lane';
+import { generateHighScoreForm } from './util';
 
 class Game {
   constructor(ctx) {
     this.ctx = ctx;
-    this.moveSpeed = 0;
+    this.moveSpeed = 4;
     this.turn = 'right'; // starts off with right zig, then alternates
     this.pieces = []; // new instances of LeftZig and RightZig gets accumulated
     this.score = 0; // score by action (spacebar or click)
@@ -14,6 +15,8 @@ class Game {
     this.StartLane = new StartLane(this.ctx, this.laneWidth, this.moveSpeed);
     this.prevX = this.StartLane.x;
     this.prevY = this.StartLane.y;
+    this.over = false;
+    // this.top5 = top5;
   }
 
   generateBackground() {
@@ -28,10 +31,6 @@ class Game {
     } else {
       this.pieces.push(new LeftZig(prevX, prevY, laneWidth, ctx, game));
     }
-  }
-  
-  over() {
-
   }
   
 }

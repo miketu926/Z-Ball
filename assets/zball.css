@@ -34,7 +34,7 @@ time, mark, audio, video {
 }
 
 .font-white {
-  color: #d0d0d0;
+  color: #70adf1;
   font-size: 30px;
   letter-spacing: 1px;
 }
@@ -134,7 +134,7 @@ canvas {
 }
 
 .scorebox {
-  border: 1px solid #d0d0d0;
+  border: 1px solid #70adf1;
   padding: 20px;
   margin: 10px;
   width: 250px;
@@ -145,11 +145,31 @@ canvas {
 .top5-title{
   font-size: 20px;
   color: #d0d0d0;
+  /* color: #70adf1; */
   border-bottom: 1px solid #d0d0d0;
   margin-bottom: 10px;
+  letter-spacing: 1px;
 }
 
 .scores {
   width: auto;
   justify-content: space-evenly;
+}
+
+.top-score-message {
+  border: 1px solid #70adf1;
+  font-size: 20px;
+  width: 250px;
+  margin-left: 10px;
+  padding: 10px;
+  color: #539ff5;
+}
+
+#name {
+  text-align: center;
+}
+
+.form {
+  padding-bottom: 9px;
+  padding-top: 5px;
 }

@@ -1,15 +1,17 @@
-# Z-ball
+# Zig Zag
 
 ### Background and Overview
 
-Z-ball is an arcade game where the player survives by zig-zagging through the path without falling into the water. The player's score will be determined based on the time they stay on the path.
+[Zig Zag](https://miketu926.github.io/Z-Ball/ "Zig Zag") is an arcade game where the player survives by zig-zagging on the path without hitting the walls. The player's score will be determined based on the number of turns they make.
+
+![alt text](https://s3.amazonaws.com/getstarted-dev/Screen+Shot+2019-02-15+at+5.51.19+PM.png "Zig Zag")
 
 ### Functionality & MVP
 
-- [ ] Use the spacebar to zig-zag
-- [ ] Use the left mouse click to zig-zag
-- [ ] A popup modal describing the rules of the game
-- [ ] A production README
+- [x] Use the spacebar to zig-zag
+- [x] Use the left mouse click to zig-zag
+- [x] Firebase DB for high scores with user name input
+- [x] A production README
 
 ### Architecture and Technologies
 
@@ -21,35 +23,39 @@ The project will be implemented with the following technologies:
 
 - `Webpack` to bundle js files
 
+- `Firebase DB` to display high scores
+
 The following main scripts will be implemented:
 
-- `board.js`: this script will handle the logic for rendering the path and the water
+- `index.js` and `game.js`: these scripts will handle the logic for rendering the path and the water
 
-- `ball.js `: this script will handle the logic for rendering the ball as it remains on the path
+- `left_zig.js`, `right_zig.js` and `start_lane.js` these scripts will handle generating the path
 
-- `points.js`: this script will handle the logic for points - 100ms = 1 point
+- `player.js `: this script will handle the logic for rendering the ball as it remains on the path
+
+- `util.js`: this script will handle the AJAX calls to Firebase DB
 
 ### Implementation Timeline
 
 **Day 1**: 
-- [ ] Setup all the files needed for Webpack (webpack.config.js, package.json)
-- [ ] Write a basic entry file
-- [ ] Complete path and background design
+- [x] Setup all the files needed for Webpack (webpack.config.js, package.json)
+- [x] Write a basic entry file
+- [x] Complete path and background design
 
 **Day 2**: 
-- [ ] Complete ball rendering - falling off the edge
-- [ ] Complete mouse-click/spacebar actions for zig-zagging
+- [x] Complete ball rendering - falling off the edge
+- [x] Complete mouse-click/spacebar actions for zig-zagging
 
 **Day 3**: 
-- [ ] Complete points script (100ms is equivalent to 1 point)
-- [ ] Complete any unfinished MVPs
+- [x] Complete points - each player action is equal to one point
+- [x] Complete any unfinished MVPs
 
 **Weekend**:
-- [ ] Complete any unfinished MVPs
+- [x] Complete any unfinished MVPs
 - [ ] Do bonus features
 
 ### Bonus features
 - [ ] Add options for ball types and colors
 - [ ] Add items on the path in order to increase points
-- [ ] Connect to a backend database to store player's high scores
+- [x] Connect to a backend database to store player's high scores
 - [ ] WebAudioAPI for sound generation, processing and control

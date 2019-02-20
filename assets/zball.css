@@ -45,6 +45,12 @@ time, mark, audio, video {
   /* letter-spacing: 1px; */
 }
 
+.font-directions-or {
+  color: #70adf1;
+  font-size: 15x;
+  /* letter-spacing: 1px; */
+}
+
 .background {
   width: auto;
   height: 100%;

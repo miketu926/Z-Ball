@@ -10594,11 +10594,12 @@ function play() {
   window.array = array;
   // end window test
 
-  ctx.canvas.addEventListener("click", clickHandler);
-  window.addEventListener("keyup", clickHandler);
+  ctx.canvas.addEventListener("mousedown", clickHandler);
+  window.addEventListener("keydown", clickHandler);
 
   function clickHandler(e) {
-    if (e.keyCode === 32 || e.type === 'click') {
+    // left = 37, right = 39
+    if (e.keyCode === 32 || e.type === 'mousedown') {
       if (player.clicked === "right") {
         player.clicked = "left";
         game.score += 1;
@@ -10606,6 +10607,13 @@ function play() {
         player.clicked = "right";
         game.score += 1;
       }
+    }
+    if (e.keyCode === 37 && player.clicked !== "left") {
+      player.clicked = "left";
+      game.score += 1;
+    } else if (e.keyCode === 39 && player.clicked !== "right") {
+      player.clicked = "right";
+      game.score += 1;
     }
   }
 

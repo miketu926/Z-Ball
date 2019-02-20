@@ -65,7 +65,7 @@ function play() {
   window.array = array;
   // end window test
 
-  ctx.canvas.addEventListener("mousedown", clickHandler);
+  ctx.canvas.addEventListener("click", clickHandler);
   window.addEventListener("keydown", clickHandler);
 
   function clickHandler(e) {

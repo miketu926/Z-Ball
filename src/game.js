@@ -5,11 +5,11 @@ import StartLane from './start_lane';
 class Game {
   constructor(ctx) {
     this.ctx = ctx;
-    this.moveSpeed = 3.5;
+    this.moveSpeed = 3;
     this.turn = 'right'; // starts off with right zig, then alternates
     this.pieces = []; // new instances of LeftZig and RightZig gets accumulated
     this.score = 0; // score by action (spacebar or click)
-    this.laneWidth = 50;
+    this.laneWidth = 100;
     this.generateBackground = this.generateBackground.bind(this);
     this.StartLane = new StartLane(this.ctx, this.laneWidth, this.moveSpeed);
     this.prevX = this.StartLane.x;

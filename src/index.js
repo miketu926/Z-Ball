@@ -65,7 +65,7 @@ function play() {
   window.array = array;
   // end window test
 
-  ctx.canvas.addEventListener("click", clickHandler);
+  ctx.canvas.addEventListener("mousedown", clickHandler);
   window.addEventListener("keydown", clickHandler);
 
   function clickHandler(e) {
@@ -167,6 +167,24 @@ function play() {
       game.ctx.getImageData(player.x - player.a - 1, player.y - player.a - 1, 1, 1).data[2] == 0) {
         // window.location.reload();
         game.over = true;
+    }
+
+    if (game.score <= 10) {
+    } else if (game.score > 10 && game.score <= 20) {
+      game.laneWidth = 90;
+      // game.moveSpeed = 2.2;
+    } else if (game.score > 20 && game.score <= 40) {
+      game.laneWidth = 80;
+      // game.moveSpeed = 2.4;
+    } else if (game.score > 40 && game.score <= 80) {
+      game.laneWidth = 70;
+      // game.moveSpeed = 2.8;
+    } else if (game.score > 80 && game.score <= 100) {
+      game.laneWidth = 60;
+      // game.moveSpeed = 3;
+    } else if (game.score > 100) {
+      game.laneWidth = 50;
+      // game.moveSpeed = 3.5;
     }
 
     function gameOver() {

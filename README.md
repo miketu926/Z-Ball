@@ -8,10 +8,10 @@
 
 ### Functionality & MVP
 
-- [x] Use the spacebar to zig-zag
+- [x] Use the spacebar, left and righ arrows to zig-zag
 - [x] Use the left mouse click to zig-zag
 - [x] Firebase DB for high scores with user name input
-- [x] A production README
+- [x] Difficulty increases as the score increases
 
 ### Architecture and Technologies
 
@@ -52,10 +52,7 @@ The following main scripts will be implemented:
 
 **Weekend**:
 - [x] Complete any unfinished MVPs
-- [ ] Do bonus features
+- [x] Do bonus features
 
 ### Bonus features
-- [ ] Add options for ball types and colors
-- [ ] Add items on the path in order to increase points
 - [x] Connect to a backend database to store player's high scores
-- [ ] WebAudioAPI for sound generation, processing and control

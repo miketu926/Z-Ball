@@ -169,6 +169,24 @@ function play() {
         game.over = true;
     }
 
+    if (game.score <= 10) {
+    } else if (game.score > 10 && game.score <= 20) {
+      game.laneWidth = 90;
+      // game.moveSpeed = 2.2;
+    } else if (game.score > 20 && game.score <= 40) {
+      game.laneWidth = 80;
+      // game.moveSpeed = 2.4;
+    } else if (game.score > 40 && game.score <= 80) {
+      game.laneWidth = 70;
+      // game.moveSpeed = 2.8;
+    } else if (game.score > 80 && game.score <= 100) {
+      game.laneWidth = 60;
+      // game.moveSpeed = 3;
+    } else if (game.score > 100) {
+      game.laneWidth = 50;
+      // game.moveSpeed = 3.5;
+    }
+
     function gameOver() {
       game.ctx.font = '40px Arial';
       game.ctx.fillStyle = "#70adf1";

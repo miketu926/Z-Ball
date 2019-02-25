@@ -10481,11 +10481,11 @@ __webpack_require__.r(__webpack_exports__);
 class Game {
   constructor(ctx) {
     this.ctx = ctx;
-    this.moveSpeed = 3.5;
+    this.moveSpeed = 3;
     this.turn = 'right'; // starts off with right zig, then alternates
     this.pieces = []; // new instances of LeftZig and RightZig gets accumulated
     this.score = 0; // score by action (spacebar or click)
-    this.laneWidth = 50;
+    this.laneWidth = 100;
     this.generateBackground = this.generateBackground.bind(this);
     this.StartLane = new _start_lane__WEBPACK_IMPORTED_MODULE_2__["default"](this.ctx, this.laneWidth, this.moveSpeed);
     this.prevX = this.StartLane.x;
@@ -10698,6 +10698,24 @@ function play() {
         game.over = true;
     }
 
+    if (game.score <= 10) {
+    } else if (game.score > 10 && game.score <= 20) {
+      game.laneWidth = 90;
+      // game.moveSpeed = 2.2;
+    } else if (game.score > 20 && game.score <= 40) {
+      game.laneWidth = 80;
+      // game.moveSpeed = 2.4;
+    } else if (game.score > 40 && game.score <= 80) {
+      game.laneWidth = 70;
+      // game.moveSpeed = 2.8;
+    } else if (game.score > 80 && game.score <= 100) {
+      game.laneWidth = 60;
+      // game.moveSpeed = 3;
+    } else if (game.score > 100) {
+      game.laneWidth = 50;
+      // game.moveSpeed = 3.5;
+    }
+
     function gameOver() {
       game.ctx.font = '40px Arial';
       game.ctx.fillStyle = "#70adf1";
@@ -10803,7 +10821,7 @@ class LeftZig {
     this.p4x = this.p3x + this.rA;
     this.p4y = this.p3y + this.rA;
     this.draw = this.draw.bind(this);
-    this.YforNextPiece = this.p2y - moveSpeed; // + this.aLane(laneWidth);
+    this.YforNextPiece = this.p2y - moveSpeed;
     this.moveSpeed = moveSpeed;
   }
 
@@ -10941,7 +10959,7 @@ class RightZig {
     this.p4x = this.p3x + this.aLane(laneWidth);
     this.p4y = this.p3y + this.aLane(laneWidth);
     this.draw = this.draw.bind(this);
-    this.YforNextPiece = this.p4y - moveSpeed; //+ this.aLane(laneWidth);
+    this.YforNextPiece = this.p4y - moveSpeed;
     this.moveSpeed = moveSpeed;
   }
 

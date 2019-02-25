@@ -56,10 +56,7 @@ time, mark, audio, video {
   height: 100%;
   justify-content: center;
   background-color: black;
-  /* background-image: url("anotherBG.gif"); */
-  /* background-image: url("space.gif"); */
   background-image: url("space.jpg");
-  /* background-image: url("cyberpunk.gif"); */
   background-size: cover;
 }
 
@@ -106,23 +103,24 @@ canvas {
 
 #links {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
 }
 
-#links img {
+#links a {
   transition: transform 0.2s ease;
   cursor: pointer;
 }
 
 
-#links img:hover {
+#links a:hover {
   transform: scale(1.2);
 }
 
 #github {
   height: 50px;
-  margin-right: 40px;
+  /* margin-right: 40px; */
 }
 
 #linkedin {
@@ -141,6 +139,12 @@ canvas {
 
 .list-item {
   font-size: 15px;
+}
+
+.icon-color {
+  color: #d0d0d0;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 .scorebox {
@@ -190,4 +194,9 @@ input[type="submit"] {
   background: black;
   border: 1px solid #70adf1;
   color: white;
+}
+
+.right-pane {
+  margin-left: 100px;
+  margin-right: 100px;
 }

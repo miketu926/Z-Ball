@@ -32,7 +32,7 @@ class LeftZig {
     this.p4x = this.p3x + this.rA;
     this.p4y = this.p3y + this.rA;
     this.draw = this.draw.bind(this);
-    this.YforNextPiece = this.p2y - moveSpeed; // + this.aLane(laneWidth);
+    this.YforNextPiece = this.p2y - moveSpeed;
     this.moveSpeed = moveSpeed;
   }
 

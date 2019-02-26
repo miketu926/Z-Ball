@@ -4,7 +4,7 @@
 
 [Zig Zag](https://miketu926.github.io/Z-Ball/ "Zig Zag") is an arcade game where the player survives by zig-zagging on the path without hitting the walls. The player's score will be determined based on the number of turns they make.
 
-![alt text](https://s3.amazonaws.com/getstarted-dev/Screen+Shot+2019-02-15+at+5.51.19+PM.png "Zig Zag")
+![alt text](https://s3.amazonaws.com/getstarted-dev/Screen+Shot+2019-02-25+at+7.39.16+PM.png "Zig Zag")
 
 ### Functionality & MVP
 
